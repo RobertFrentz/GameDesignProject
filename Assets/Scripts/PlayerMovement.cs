@@ -20,6 +20,6 @@ public class PlayerMovement : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         movement = new Vector3(horizontal, 0f, vertical).normalized;
         Debug.Log(movement);
-        playerRB.MovePosition(player.transform.position + (movement * speed * Time.deltaTime));
+        playerRB.AddForce(player.transform.position + (movement * speed) , ForceMode.Force) ;
     }
 }
