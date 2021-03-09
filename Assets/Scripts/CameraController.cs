@@ -10,6 +10,13 @@ public class CameraController : MonoBehaviour
     public GameObject ballRig;
     public GameObject target;
     public GameObject ball;
+    private Vector3 offset;
+    public bool ballCamera;
+
+     void Start()
+    {
+        offset = new Vector3(0f, 1f, 0f);
+    }
 
     // Update is called once per frame
     void BallCam()
@@ -21,11 +28,18 @@ public class CameraController : MonoBehaviour
     void CarCam()
     {
         cam.transform.position = cameraRig.transform.position;
-        cam.transform.LookAt(car.transform.position);
+        cam.transform.LookAt(car.transform.position + offset);
     }
     void Update()
     {
-        //CarCam();
-        BallCam();
+        if(ballCamera == true)
+        {
+            BallCam();
+        } 
+        else
+        {
+            CarCam();
+        }
+
     }
 }
