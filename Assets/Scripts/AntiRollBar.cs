@@ -8,7 +8,7 @@ public class AntiRollBar : MonoBehaviour
     public WheelCollider wheelLeft;
     public WheelCollider wheelRight;
     public Rigidbody rb;
-    private float antiRoll = 0f;
+    private float antiRoll = 7000f;
 
     void Start()
     {
