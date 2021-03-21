@@ -13,6 +13,7 @@ public class CarController : MonoBehaviour
     public List<WheelCollider> steerWheels;
     public float force;
     public float maxTurn;
+    public float brakeStrength;
     public float maxSpeed;
     private Rigidbody rb;
     void Start()
@@ -23,12 +24,40 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if(rb.velocity.magnitude < maxSpeed)
         {
+            float throttle = inputManager.throttle;
+            var localVel = transform.InverseTransformDirection(rb.velocity);
             foreach (WheelCollider wheelCollider in throttleWheels)
             {
-                wheelCollider.motorTorque = force * Time.fixedDeltaTime * inputManager.throttle;
-                //Debug.Log("MotorTorque: " + wheelCollider.motorTorque);
+                if(localVel.z > 0)
+                {
+                    if(throttle < 0)
+                    {
+                        wheelCollider.motorTorque = 0;
+                        wheelCollider.brakeTorque = brakeStrength;
+                    }
+                    else
+                    {
+                        wheelCollider.motorTorque = force * Time.deltaTime * inputManager.throttle;
+                        wheelCollider.brakeTorque = 0;
+                    }
+                }
+                else
+                {
+                    if (throttle > 0)
+                    {
+                        wheelCollider.motorTorque = 0;
+                        wheelCollider.brakeTorque = brakeStrength * Time.deltaTime;
+                    }
+                    else
+                    {
+                        wheelCollider.motorTorque = force * Time.deltaTime * inputManager.throttle;
+                        wheelCollider.brakeTorque = 0;
+                    }
+                }
+
             }
         }
         else
