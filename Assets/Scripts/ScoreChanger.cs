@@ -6,7 +6,7 @@ public class ScoreChanger : MonoBehaviour
     // Start is called before the first frame update
     public int score = 0;
     public Text text;
-    void Start()
+    public void Start()
     {
         text.text = score.ToString();
     }
