@@ -8,8 +8,7 @@ public class BallSpawn : MonoBehaviour
     // Start is called before the first frame update
     public GameObject ballSpawn;
     public GameObject ball;
-    public Text redScore;
-    public Text blueScore;
+    public Text score;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,16 +18,8 @@ public class BallSpawn : MonoBehaviour
             ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
             ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             
-            if(name == "GoalCollider1")
-            {
-                int currentRedScoreValue = int.Parse(redScore.text);
-                redScore.text = (currentRedScoreValue + 1).ToString();
-            }
-            else if (name == "GoalCollider2")
-            {
-                int currentBlueScoreValue = int.Parse(blueScore.text);
-                blueScore.text = (currentBlueScoreValue + 1).ToString();
-            }
+            int currentScoreValue = int.Parse(score.text);
+            score.text = (currentScoreValue + 1).ToString();
         }
     }
 }
