@@ -31,29 +31,43 @@ public class CarController : MonoBehaviour
             var localVel = transform.InverseTransformDirection(rb.velocity);
             foreach (WheelCollider wheelCollider in throttleWheels)
             {
+                Debug.Log(throttle);
                 if(localVel.z > 0)
                 {
-                    if(throttle < 0)
+                    if (throttle < 0.1 && throttle > -0.1)
+                    {
+                        wheelCollider.motorTorque = 0;
+                        wheelCollider.brakeTorque = 0;
+                        break;
+                    }
+                    if (throttle < 0)
                     {
                         wheelCollider.motorTorque = 0;
                         wheelCollider.brakeTorque = brakeStrength;
                     }
                     else
                     {
-                        wheelCollider.motorTorque = force * Time.deltaTime * inputManager.throttle;
+                        wheelCollider.motorTorque = force * inputManager.throttle;
                         wheelCollider.brakeTorque = 0;
                     }
+                    
                 }
                 else
                 {
+                    if (throttle < 0.1 && throttle > -0.1)
+                    {
+                        wheelCollider.motorTorque = 0;
+                        wheelCollider.brakeTorque = 0;
+                        break;
+                    }
                     if (throttle > 0)
                     {
                         wheelCollider.motorTorque = 0;
-                        wheelCollider.brakeTorque = brakeStrength * Time.deltaTime;
+                        wheelCollider.brakeTorque = brakeStrength;
                     }
                     else
                     {
-                        wheelCollider.motorTorque = force * Time.deltaTime * inputManager.throttle;
+                        wheelCollider.motorTorque = force * inputManager.throttle;
                         wheelCollider.brakeTorque = 0;
                     }
                 }
