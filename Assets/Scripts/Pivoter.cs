@@ -5,8 +5,14 @@ using UnityEngine;
 public class Pivoter : MonoBehaviour
 {
     public GameObject ball;
+    private Transform cube;
+    void Start()
+    {
+        cube = transform.GetChild(4);
+    }
+
     void LateUpdate()
     {
-        transform.LookAt(ball.transform.position);
+        cube.LookAt(ball.transform.position);
     }
 }

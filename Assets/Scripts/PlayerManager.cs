@@ -20,7 +20,16 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        
+        AlternativeCameraController _cameraWork = this.gameObject.GetComponent<AlternativeCameraController>();
+
+
+        if (_cameraWork != null)
+        {
+            if (photonView.IsMine)
+            {
+                _cameraWork.OnStartFollowing();
+            }
+        }
     }
 
     void Update()

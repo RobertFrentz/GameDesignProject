@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour
     public GameObject car;
     public GameObject cameraRig;
     public GameObject ballRig;
-    public GameObject target;
     public GameObject ball;
     private Vector3 offset;
     public bool ballCamera;
@@ -16,6 +15,8 @@ public class CameraController : MonoBehaviour
      void Start()
     {
         offset = new Vector3(0f, 1f, 0f);
+       /* cameraRig = car.transform.GetChild(3).gameObject;
+       ballRig = car.transform.GetChild(4).GetChild(0).gameObject;*/
     }
 
     // Update is called once per frame
