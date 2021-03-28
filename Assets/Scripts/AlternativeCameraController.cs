@@ -11,10 +11,16 @@ public class AlternativeCameraController : MonoBehaviour
     Transform cameraTransform;
     bool isFollowing;
     Vector3 cameraOffset = Vector3.zero;
-    private bool ballCamera = false;
+    private GameObject ball;
+    private bool ballCamera = true;
+    private Transform cameraRig;
+    private Transform ballRig;
 
     void Start()
     {
+        ball = GameObject.Find("Soccer Ball");
+        cameraRig = this.transform.GetChild(3);
+        ballRig = this.transform.GetChild(4).GetChild(0);
 
         if (followOnStart)
         {
@@ -58,16 +64,18 @@ public class AlternativeCameraController : MonoBehaviour
         cameraOffset.y = height;
         cameraTransform.position = Vector3.Lerp(cameraTransform.position, this.transform.position + this.transform.TransformVector(cameraOffset), smoothSpeed * Time.deltaTime);
         cameraTransform.LookAt(this.transform.position + centerOffset);*/
-        cameraTransform.position = this.transform.position - new Vector3(0f, -1.5f, 5f);
+        cameraTransform.position = cameraRig.position;
         cameraTransform.LookAt(this.transform.position);
     }
 
     void FollowBall()
     {
-        cameraOffset.z = -distance;
+        /*cameraOffset.z = -distance;
         cameraOffset.y = height;
         cameraTransform.position = Vector3.Lerp(cameraTransform.position, this.transform.position + this.transform.TransformVector(cameraOffset), smoothSpeed * Time.deltaTime);
-        cameraTransform.LookAt(this.transform.position);
+        cameraTransform.LookAt(this.transform.position);*/
+        cameraTransform.position = ballRig.position;
+        cameraTransform.LookAt(ball.transform);
     }
 
 

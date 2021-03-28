@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Pivoter : MonoBehaviour
 {
-    public GameObject ball;
+    private GameObject ball;
     private Transform cube;
     void Start()
     {
+        ball = GameObject.Find("Soccer Ball");
         cube = transform.GetChild(4);
     }
 

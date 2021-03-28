@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
 
      void Start()
     {
+        //ball = GameObject.Find("Soccer Ball");
         offset = new Vector3(0f, 1f, 0f);
        /* cameraRig = car.transform.GetChild(3).gameObject;
        ballRig = car.transform.GetChild(4).GetChild(0).gameObject;*/
