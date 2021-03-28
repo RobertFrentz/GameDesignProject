@@ -22,4 +22,13 @@ public class BallSpawn : MonoBehaviour
             score.text = (currentScoreValue + 1).ToString();
         }
     }
+    private void Update()
+    {
+        if (Input.GetButtonDown("BallReset"))
+        {
+            ball.transform.position = ballSpawn.transform.position;
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+    }
 }

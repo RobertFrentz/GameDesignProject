@@ -12,7 +12,7 @@ public class AlternativeCameraController : MonoBehaviour
     bool isFollowing;
     Vector3 cameraOffset = Vector3.zero;
     private GameObject ball;
-    private bool ballCamera = true;
+    private bool ballCamera=true;
     private Transform cameraRig;
     private Transform ballRig;
 
@@ -21,7 +21,6 @@ public class AlternativeCameraController : MonoBehaviour
         ball = GameObject.Find("Soccer Ball");
         cameraRig = this.transform.GetChild(3);
         ballRig = this.transform.GetChild(4).GetChild(0);
-
         if (followOnStart)
         {
             OnStartFollowing();
@@ -39,6 +38,10 @@ public class AlternativeCameraController : MonoBehaviour
 
         if (isFollowing)
         {
+            if (Input.GetButtonDown("CameraSwitch"))
+            {
+                ballCamera = !ballCamera;
+            }
             if (ballCamera)
             {
                 FollowBall();
