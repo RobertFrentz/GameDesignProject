@@ -7,30 +7,22 @@ public class NicknameInputField : MonoBehaviour
 {
 
     InputField inputField;
-    Graphic placeholder;
-    Text inputText;
+    public Text waitingText;
+    public int secondLeft = 3;
+    public bool takingAway = false;
+    bool pressed_enter = false;
+
     void Start()
     {
         inputField = GetComponent<InputField>();
-        placeholder = inputField.placeholder;
-        inputText = GameObject.FindObjectsOfType<Text>()[0];
     }
-    void Update() {
-
-        
-        
-    }
-    void OnGUI()
-    { 
-        if (Event.current.isKey && Event.current.type == EventType.KeyDown)
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Return))
         {
-            ((Text)placeholder).text = "";
-            if (Event.current.keyCode.ToString() != "None")
-            {
-                inputText.text += Event.current.keyCode.ToString();
-                Debug.Log(Event.current.keyCode);
-            }
+            inputField.gameObject.SetActive(false);
             
+            waitingText.gameObject.SetActive(true);
         }
     }
 }
