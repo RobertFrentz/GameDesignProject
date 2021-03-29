@@ -337,6 +337,7 @@ MonoBehaviour:
     m_Bits: 256
   groundRayLength: 0.3
   groundRayPoint: {fileID: 6263228368908993255}
+  photonView: {fileID: 7086772734784947616}
 --- !u!114 &7086772734784947616
 MonoBehaviour:
   m_ObjectHideFlags: 0

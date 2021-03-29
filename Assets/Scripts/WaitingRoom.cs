@@ -8,6 +8,7 @@ public class WaitingRoom : MonoBehaviour
 {
     public int secondLeft = 3;
     public bool takingAway = false;
+    public GameObject Photon;
     Text waitingText;
 
     void Update()
@@ -22,7 +23,7 @@ public class WaitingRoom : MonoBehaviour
         {
             waitingText = GetComponent<Text>();
             waitingText.gameObject.SetActive(false);
-            PhotonConnection.JoinRoom();
+            Photon.GetComponent<PhotonConnection>().JoinRoom();
         }
     }
 

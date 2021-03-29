@@ -80,7 +80,7 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
 
     }
 
-    public static void JoinRoom()
+    public void JoinRoom()
     {
         PhotonNetwork.JoinRandomRoom();
     }

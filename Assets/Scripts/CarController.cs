@@ -1,4 +1,5 @@
 ﻿
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class CarController : MonoBehaviour
     public LayerMask whatIsGround;
     public float groundRayLength;
     public Transform groundRayPoint;
+    public PhotonView photonView;
     void Start()
     {
         timeStart = 0f;
@@ -34,100 +36,102 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Debug.Log(rb.angularVelocity);
-        grounded = false;
-        RaycastHit hit;
-        boost = 1f;
-        if(timeStart >= 0.1f && timeStart <= timeEnd)
+        if (photonView.IsMine)
         {
-            timeStart += Time.deltaTime;
-        }
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, whatIsGround))
-        {
-            grounded = true;
-            //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-        }
-
-        if (Input.GetButton("Fire1"))
-        {
-            //boost = 1000000f;
-        }
-
-        if (grounded)
-        {
-            timeStart = 0f;
-            if (rb.velocity.magnitude < maxSpeed)
+            //Debug.Log(rb.angularVelocity);
+            grounded = false;
+            RaycastHit hit;
+            boost = 1f;
+            if (timeStart >= 0.1f && timeStart <= timeEnd)
             {
-                float throttle = inputManager.throttle;
-                var localVel = transform.InverseTransformDirection(rb.velocity);
-                CarMovement(boost, localVel.z);
+                timeStart += Time.deltaTime;
+            }
+            if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, whatIsGround))
+            {
+                grounded = true;
+                //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            }
+
+            if (Input.GetButton("Fire1"))
+            {
+                //boost = 1000000f;
+            }
+
+            if (grounded)
+            {
+                timeStart = 0f;
+                if (rb.velocity.magnitude < maxSpeed)
+                {
+                    float throttle = inputManager.throttle;
+                    var localVel = transform.InverseTransformDirection(rb.velocity);
+                    CarMovement(boost, localVel.z);
+                }
+                else
+                {
+                    rb.velocity = rb.velocity.normalized * maxSpeed;
+                }
+                foreach (WheelCollider wheelCollider in steerWheels)
+                {
+                    wheelCollider.steerAngle = maxTurn * inputManager.steer;
+                    /*wheelFrontLeft.transform.localEulerAngles = new Vector3(0f, wheelCollider.steerAngle, 0f);
+                    wheelFrontRight.transform.localEulerAngles = new Vector3(0f, wheelCollider.steerAngle, 0f);*/
+                    //Debug.Log("SteerAngle: " + wheelCollider.steerAngle);
+                }
+                /*wheelFrontLeft.transform.Rotate(throttleWheels[0].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
+                wheelFrontRight.transform.Rotate(throttleWheels[1].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
+                wheelRearLeft.transform.Rotate(throttleWheels[2].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
+                wheelRearLeft.transform.Rotate(throttleWheels[3].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);*/
+                if (Input.GetButtonDown("Fire2"))
+                {
+                    rb.AddForce(rb.transform.up * 600000f);
+                    timeStart = 0.1f;
+                }
             }
             else
             {
-                rb.velocity = rb.velocity.normalized * maxSpeed;
-            }
-            foreach (WheelCollider wheelCollider in steerWheels)
-            {
-                wheelCollider.steerAngle = maxTurn * inputManager.steer;
-                /*wheelFrontLeft.transform.localEulerAngles = new Vector3(0f, wheelCollider.steerAngle, 0f);
-                wheelFrontRight.transform.localEulerAngles = new Vector3(0f, wheelCollider.steerAngle, 0f);*/
-                //Debug.Log("SteerAngle: " + wheelCollider.steerAngle);
-            }
-            /*wheelFrontLeft.transform.Rotate(throttleWheels[0].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
-            wheelFrontRight.transform.Rotate(throttleWheels[1].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
-            wheelRearLeft.transform.Rotate(throttleWheels[2].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
-            wheelRearLeft.transform.Rotate(throttleWheels[3].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);*/
-            if (Input.GetButtonDown("Fire2"))
-            {
-                rb.AddForce(rb.transform.up * 600000f);
-                timeStart = 0.1f;
-            }
-        }
-        else
-        {
-            //Debug.Log(timeStart);
-            if(Input.GetButtonDown("Fire2") && timeStart > 0.1f && timeStart < timeEnd)
-            {
-                if (inputManager.throttle > 0)
+                //Debug.Log(timeStart);
+                if (Input.GetButtonDown("Fire2") && timeStart > 0.1f && timeStart < timeEnd)
                 {
-                    
-                    rb.AddTorque(rb.transform.right * 900000f);
-                    rb.AddForce(rb.transform.forward * 800000f);
-                    doubleJumpButtonPressed = 1000;
+                    if (inputManager.throttle > 0)
+                    {
+
+                        rb.AddTorque(rb.transform.right * 900000f);
+                        rb.AddForce(rb.transform.forward * 800000f);
+                        doubleJumpButtonPressed = 1000;
+                    }
+                }
+                /*if (inputManager.throttle > 0)
+                {
+                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(170f, 0f, 0f) * Time.deltaTime);
+                    rb.MoveRotation(rb.rotation * deltaRotation);
+                }*/
+                else if (inputManager.throttle < 0)
+                {
+                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(-170f, 0f, 0f) * Time.deltaTime);
+                    rb.MoveRotation(rb.rotation * deltaRotation);
+                }
+                if (inputManager.steer > 0)
+                {
+                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 170f, 0f) * Time.deltaTime);
+                    rb.MoveRotation(rb.rotation * deltaRotation);
+                }
+                if (inputManager.steer < 0)
+                {
+                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, -170f, 0f) * Time.deltaTime);
+                    rb.MoveRotation(rb.rotation * deltaRotation);
+                }
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 0f, 170f) * Time.deltaTime);
+                    rb.MoveRotation(rb.rotation * deltaRotation);
+                }
+                if (Input.GetKey(KeyCode.E))
+                {
+                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 0f, -170f) * Time.deltaTime);
+                    rb.MoveRotation(rb.rotation * deltaRotation);
                 }
             }
-            /*if (inputManager.throttle > 0)
-            {
-                Quaternion deltaRotation = Quaternion.Euler(new Vector3(170f, 0f, 0f) * Time.deltaTime);
-                rb.MoveRotation(rb.rotation * deltaRotation);
-            }*/
-            else if (inputManager.throttle < 0)
-            {
-                Quaternion deltaRotation = Quaternion.Euler(new Vector3(-170f, 0f, 0f) * Time.deltaTime);
-                rb.MoveRotation(rb.rotation * deltaRotation);
-            }
-            if (inputManager.steer > 0)
-            {
-                Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 170f, 0f) * Time.deltaTime);
-                rb.MoveRotation(rb.rotation * deltaRotation);
-            }
-            if (inputManager.steer < 0)
-            {
-                Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, -170f, 0f) * Time.deltaTime);
-                rb.MoveRotation(rb.rotation * deltaRotation);
-            }
-            if (Input.GetKey(KeyCode.Q))
-            {
-                Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 0f, 170f) * Time.deltaTime);
-                rb.MoveRotation(rb.rotation * deltaRotation);
-            }
-            if (Input.GetKey(KeyCode.E))
-            {
-                Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 0f, -170f) * Time.deltaTime);
-                rb.MoveRotation(rb.rotation * deltaRotation);
-            }
         }
-        
 
     }
 

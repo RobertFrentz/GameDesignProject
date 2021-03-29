@@ -358,6 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondLeft: 3
   takingAway: 0
+  Photon: {fileID: 1206436630}
 --- !u!1 &400524615
 GameObject:
   m_ObjectHideFlags: 0
