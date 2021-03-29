@@ -22,7 +22,7 @@ public class WaitingRoom : MonoBehaviour
         {
             waitingText = GetComponent<Text>();
             waitingText.gameObject.SetActive(false);
-            SceneManager.LoadScene(sceneName:"GameScene1");
+            PhotonConnection.JoinRoom();
         }
     }
 

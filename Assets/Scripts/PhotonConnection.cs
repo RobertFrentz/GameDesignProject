@@ -80,7 +80,7 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
 
     }
 
-    public void JoinRoom()
+    public static void JoinRoom()
     {
         PhotonNetwork.JoinRandomRoom();
     }
@@ -122,7 +122,7 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
-        JoinRoom();
+        //JoinRoom();
 
     }
 
