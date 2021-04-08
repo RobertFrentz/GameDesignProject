@@ -22,8 +22,9 @@ public class CarController : MonoBehaviour
     private float doubleJumpButtonPressed;
     public LayerMask whatIsGround;
     public float groundRayLength;
-    public Transform groundRayPoint;
+    public Transform[] groundRayPoints;
     public PhotonView photonView;
+    public ParticleSystem[] carBoost;
     void Start()
     {
         timeStart = 0f;
@@ -31,14 +32,13 @@ public class CarController : MonoBehaviour
         doubleJumpButtonPressed = 0;
         inputManager = GetComponent<InputManager>();
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = new Vector3(0f, 0f, 0f);
+        rb.centerOfMass = new Vector3(0.1f, 0.1f, 0.1f);
     }
 
     void FixedUpdate()
     {
         if (photonView.IsMine)
         {
-            //Debug.Log(rb.angularVelocity);
             grounded = false;
             RaycastHit hit;
             boost = 1f;
@@ -46,15 +46,31 @@ public class CarController : MonoBehaviour
             {
                 timeStart += Time.deltaTime;
             }
-            if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, whatIsGround))
+            foreach(var groundRay in groundRayPoints)
             {
-                grounded = true;
-                //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+                if (Physics.Raycast(groundRay.position, -transform.up, out hit, groundRayLength, whatIsGround))
+                {
+                    grounded = true;
+                }
             }
 
             if (Input.GetButton("Fire1"))
             {
-                //boost = 1000000f;
+                carBoost[0].Play();
+                carBoost[1].Play();
+                boost = 10000f;
+            }
+            else
+            {
+                carBoost[0].Stop();
+                carBoost[1].Stop();
+            }
+
+            if (Input.GetKey(KeyCode.R))
+            {
+                rb.transform.position = new Vector3(48, 1, 6);
+                rb.velocity = new Vector3(0f, 0f, 0f);
+                rb.rotation = Quaternion.identity;
             }
 
             if (grounded)
@@ -89,36 +105,61 @@ public class CarController : MonoBehaviour
             }
             else
             {
-                //Debug.Log(timeStart);
-                if (Input.GetButtonDown("Fire2") && timeStart > 0.1f && timeStart < timeEnd)
+                if (inputManager.throttle > 0)
                 {
-                    if (inputManager.throttle > 0)
+                    if (Input.GetButtonDown("Fire2") && timeStart > 0.1f && timeStart < timeEnd)
                     {
-
                         rb.AddTorque(rb.transform.right * 900000f);
                         rb.AddForce(rb.transform.forward * 800000f);
-                        doubleJumpButtonPressed = 1000;
                     }
+                    else
+                    {
+                        Quaternion deltaRotation = Quaternion.Euler(new Vector3(170f, 0f, 0f) * Time.deltaTime);
+                        rb.MoveRotation(rb.rotation * deltaRotation);
+                    }
+
                 }
-                /*if (inputManager.throttle > 0)
-                {
-                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(170f, 0f, 0f) * Time.deltaTime);
-                    rb.MoveRotation(rb.rotation * deltaRotation);
-                }*/
                 else if (inputManager.throttle < 0)
                 {
-                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(-170f, 0f, 0f) * Time.deltaTime);
-                    rb.MoveRotation(rb.rotation * deltaRotation);
+                    if (Input.GetButtonDown("Fire2") && timeStart > 0.1f && timeStart < timeEnd)
+                    {
+                        rb.AddTorque(-rb.transform.right * 900000f);
+                        rb.AddForce(-rb.transform.forward * 800000f);
+                    }
+                    else
+                    {
+                        Quaternion deltaRotation = Quaternion.Euler(new Vector3(-170f, 0f, 0f) * Time.deltaTime);
+                        rb.MoveRotation(rb.rotation * deltaRotation);
+                    }
+
                 }
                 if (inputManager.steer > 0)
                 {
-                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 170f, 0f) * Time.deltaTime);
-                    rb.MoveRotation(rb.rotation * deltaRotation);
+                    if (Input.GetButtonDown("Fire2") && timeStart > 0.1f && timeStart < timeEnd)
+                    {
+                        rb.AddTorque(rb.transform.forward * 900000f);
+                        rb.AddForce(rb.transform.right * 800000f);
+                    }
+                    else
+                    {
+                        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 170f, 0f) * Time.deltaTime);
+                        rb.MoveRotation(rb.rotation * deltaRotation);
+                    }
+                    
                 }
                 if (inputManager.steer < 0)
                 {
-                    Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, -170f, 0f) * Time.deltaTime);
-                    rb.MoveRotation(rb.rotation * deltaRotation);
+                    if (Input.GetButtonDown("Fire2") && timeStart > 0.1f && timeStart < timeEnd)
+                    {
+                        rb.AddTorque(-rb.transform.forward * 900000f);
+                        rb.AddForce(-rb.transform.right * 800000f);
+                    }
+                    else
+                    {
+                        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, -170f, 0f) * Time.deltaTime);
+                        rb.MoveRotation(rb.rotation * deltaRotation);
+                    }
+                    
                 }
                 if (Input.GetKey(KeyCode.Q))
                 {
@@ -129,6 +170,10 @@ public class CarController : MonoBehaviour
                 {
                     Quaternion deltaRotation = Quaternion.Euler(new Vector3(0f, 0f, -170f) * Time.deltaTime);
                     rb.MoveRotation(rb.rotation * deltaRotation);
+                }
+                if(boost > 1)
+                {
+                    rb.AddForce(rb.transform.forward * boost * 5f);
                 }
             }
         }
@@ -141,7 +186,6 @@ public class CarController : MonoBehaviour
         {
             Quaternion rotation;
             Vector3 position;
-            //Debug.Log(boost);
             if(boost == 1)
             {
                 if(direction > 0)
@@ -171,13 +215,14 @@ public class CarController : MonoBehaviour
                     }
                 }
             }
-            /*else if (boost > 1)
+            else if (boost > 1)
             {
-                if (direction > 0)
+                rb.AddForce(rb.transform.forward * boost);
+                /*if (direction > 0)
                 {
                     throttleWheels[i].motorTorque = force * boost;
                 }
-                else if(direction < 0)
+                else if (direction < 0)
                 {
                     if (rb.velocity.magnitude > 0.1)
                     {
@@ -197,8 +242,8 @@ public class CarController : MonoBehaviour
 
                     }
 
-                }
-            }*/
+                }*/
+            }
             throttleWheels[i].GetWorldPose(out position, out rotation);
             visualWheels[i].position = position;
             visualWheels[i].rotation = rotation;
