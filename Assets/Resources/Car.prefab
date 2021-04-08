@@ -697,7 +697,7 @@ GameObject:
   - component: {fileID: 612370496047847141}
   - component: {fileID: 4951228989592299458}
   m_Layer: 0
-  m_Name: Car 1
+  m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -790,9 +790,9 @@ MonoBehaviour:
     m_Bits: 256
   groundRayLength: 0.3
   groundRayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8451237280891019435}
+  - {fileID: 2568079297115947269}
+  - {fileID: 8451237279746792631}
   photonView: {fileID: 1662274417471653442}
   carBoost:
   - {fileID: 8451237280026028321}
