@@ -26,6 +26,7 @@ public class SettingsContainer : MonoBehaviour
     public void ChangeCanvas()
     {
         settingsContainer.SetActive(false);
+        backButton.gameObject.SetActive(false);
         GameObject playContainer = GameObject.Find("PlayContainer");
         int numberOfChildren = playContainer.transform.childCount;
         for (int i = 0; i < numberOfChildren; i++)
