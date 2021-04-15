@@ -785,6 +785,8 @@ MonoBehaviour:
   maxTurn: 30
   brakeStrength: 20000
   maxSpeed: 20
+  maxSpeedWithBoost: 25
+  boostBar: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256

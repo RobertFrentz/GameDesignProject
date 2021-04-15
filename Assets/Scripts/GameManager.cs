@@ -1,12 +1,16 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
 
     public GameObject playerPrefab;
+    public Text boost;
+    private GameObject player;
     void Start()
     {
         if (playerPrefab == null)
@@ -16,13 +20,13 @@ public class GameManager : MonoBehaviour
         else
         {
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(48f, 10f, 0f), Quaternion.identity, 0);
+            player = PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(48f, 10f, 0f), Quaternion.identity, 0);
         }
     }
 
 
     void Update()
     {
-        
+        boost.text = Math.Floor(player.GetComponent<CarController>().boostBar).ToString();
     }
 }

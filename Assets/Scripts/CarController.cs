@@ -13,13 +13,14 @@ public class CarController : MonoBehaviour
     public float maxTurn;
     public float brakeStrength;
     public float maxSpeed;
+    public float maxSpeedWithBoost;
+    public float boostBar;
     private Rigidbody rb;
     private bool grounded;
     private float boost;
     private float timeStart;
     private float timeEnd;
     private float dragOnGround = 3f;
-    private float doubleJumpButtonPressed;
     public LayerMask whatIsGround;
     public float groundRayLength;
     public Transform[] groundRayPoints;
@@ -29,14 +30,15 @@ public class CarController : MonoBehaviour
     {
         timeStart = 0f;
         timeEnd = 4f;
-        doubleJumpButtonPressed = 0;
         inputManager = GetComponent<InputManager>();
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0.1f, 0.1f, 0.1f);
+        boostBar = 33f;
     }
 
     void FixedUpdate()
     {
+        Debug.Log(boostBar);
         if (photonView.IsMine)
         {
             grounded = false;
@@ -56,9 +58,25 @@ public class CarController : MonoBehaviour
 
             if (Input.GetButton("Fire1"))
             {
-                carBoost[0].Play();
-                carBoost[1].Play();
-                boost = 10000f;
+                if(boostBar > 0)
+                {
+                    carBoost[0].Play();
+                    carBoost[1].Play();
+                    boost = 10000f;
+                    boostBar -= 10f * Time.deltaTime;
+                }
+                else
+                {
+                    if (carBoost[0].isPlaying)
+                    {
+                        carBoost[0].Stop();
+                    }
+                    if (carBoost[1].isPlaying)
+                    {
+                        carBoost[1].Stop();
+                    }
+                    boostBar = 0;
+                }  
             }
             else
             {
@@ -73,6 +91,11 @@ public class CarController : MonoBehaviour
                 rb.rotation = Quaternion.identity;
             }
 
+            if (Input.GetKey(KeyCode.B))
+            {
+                boostBar = 100f;
+            }
+
             if (grounded)
             {
                 timeStart = 0f;
@@ -84,19 +107,38 @@ public class CarController : MonoBehaviour
                 }
                 else
                 {
-                    rb.velocity = rb.velocity.normalized * maxSpeed;
+                    if(rb.velocity.magnitude < maxSpeedWithBoost)
+                    {
+                        if(boost > 1f)
+                        {
+                            float throttle = inputManager.throttle;
+                            var localVel = transform.InverseTransformDirection(rb.velocity);
+                            CarMovement(boost, localVel.z);
+                        }
+                        else
+                        {
+                            rb.velocity = rb.velocity.normalized * maxSpeed;
+                        }
+                    }
+                    else
+                    {
+                        if(boost > 1f)
+                        {
+                            rb.velocity = rb.velocity.normalized * maxSpeedWithBoost;
+                        }
+                        else
+                        {
+                            rb.velocity = rb.velocity.normalized * maxSpeed;
+                        }
+                        
+                    }
+                    
                 }
                 foreach (WheelCollider wheelCollider in steerWheels)
                 {
                     wheelCollider.steerAngle = maxTurn * inputManager.steer;
-                    /*wheelFrontLeft.transform.localEulerAngles = new Vector3(0f, wheelCollider.steerAngle, 0f);
-                    wheelFrontRight.transform.localEulerAngles = new Vector3(0f, wheelCollider.steerAngle, 0f);*/
-                    //Debug.Log("SteerAngle: " + wheelCollider.steerAngle);
                 }
-                /*wheelFrontLeft.transform.Rotate(throttleWheels[0].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
-                wheelFrontRight.transform.Rotate(throttleWheels[1].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
-                wheelRearLeft.transform.Rotate(throttleWheels[2].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);
-                wheelRearLeft.transform.Rotate(throttleWheels[3].rpm / 60 * 360 * Time.deltaTime, 0, 0, Space.Self);*/
+
                 if (Input.GetButtonDown("Fire2"))
                 {
                     rb.AddForce(rb.transform.up * 600000f);
@@ -218,31 +260,6 @@ public class CarController : MonoBehaviour
             else if (boost > 1)
             {
                 rb.AddForce(rb.transform.forward * boost);
-                /*if (direction > 0)
-                {
-                    throttleWheels[i].motorTorque = force * boost;
-                }
-                else if (direction < 0)
-                {
-                    if (rb.velocity.magnitude > 0.1)
-                    {
-                        throttleWheels[i].motorTorque = 0;
-                        throttleWheels[i].brakeTorque = brakeStrength;
-                    }
-                    else
-                    {
-                        if (inputManager.throttle > 0)
-                        {
-                            throttleWheels[i].motorTorque = force * inputManager.throttle * boost;
-                        }
-                        else
-                        {
-                            throttleWheels[i].motorTorque = force * boost;
-                        }
-
-                    }
-
-                }*/
             }
             throttleWheels[i].GetWorldPose(out position, out rotation);
             visualWheels[i].position = position;
