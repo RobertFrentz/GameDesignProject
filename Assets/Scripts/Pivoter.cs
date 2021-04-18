@@ -12,9 +12,19 @@ public class Pivoter : MonoBehaviour
         ball = GameObject.FindGameObjectWithTag("SoccerBall");
         cube = transform.GetChild(4);
     }
-
+    void Update()
+    {
+        if(ball==null)
+        {
+            ball = GameObject.FindGameObjectWithTag("SoccerBall");
+        }
+    }
     void LateUpdate()
     {
-        cube.LookAt(ball.transform.position);
+        if(ball!=null)
+        {
+            cube.LookAt(ball.transform.position);
+        }
+        
     }
 }

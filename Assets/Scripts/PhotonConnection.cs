@@ -103,13 +103,14 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        /*if (PhotonNetwork.CurrentRoom.PlayerCount >= 1)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
             {
-                PhotonSendEvent.SendHintsAndBoardLatAndLong(PhotonNetwork.CurrentRoom.PlayerCount);
+                /*ScenesData.playerNumber = 1;*/
+                PhotonNetwork.LoadLevel("GameScene1");
             }
-        }*/
+        }
 
     }
 
@@ -139,14 +140,15 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
         //PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
-    public override void OnJoinedRoom()
+    
+    /*public override void OnJoinedRoom()
     {
-        /*ScenesData.backToLobby = true;*/
-        if (PhotonNetwork.IsMasterClient)
+        *//*ScenesData.backToLobby = true;*//*
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
-            /*ScenesData.playerNumber = 1;*/
+            *//*ScenesData.playerNumber = 1;*//*
             PhotonNetwork.LoadLevel("GameScene1");
         }
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
-    }
+    }*/
 }

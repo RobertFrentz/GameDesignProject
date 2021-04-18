@@ -28,32 +28,42 @@ public class AlternativeCameraController : MonoBehaviour
             OnStartFollowing();
         }
     }
-
+    void Update()
+    {
+        if(ball==null)
+        {
+            ball = GameObject.FindGameObjectWithTag("SoccerBall");
+        }
+    }
 
     void LateUpdate()
     {
-
-        if (cameraTransform == null && isFollowing)
+        if(ball!=null)
         {
-            OnStartFollowing();
+            if (cameraTransform == null && isFollowing)
+            {
+                OnStartFollowing();
+            }
+
+            if (isFollowing)
+            {
+                if (Input.GetButtonDown("CameraSwitch"))
+                {
+                    ballCamera = !ballCamera;
+                }
+                if (ballCamera)
+                {
+                    FollowBall();
+                }
+                else
+                {
+                    FollowCar();
+
+                }
+            }
         }
 
-        if (isFollowing)
-        {
-            if (Input.GetButtonDown("CameraSwitch"))
-            {
-                ballCamera = !ballCamera;
-            }
-            if (ballCamera)
-            {
-                FollowBall();
-            }
-            else
-            {
-                FollowCar();
-                
-            }
-        }
+       
     }
 
     public void OnStartFollowing()
