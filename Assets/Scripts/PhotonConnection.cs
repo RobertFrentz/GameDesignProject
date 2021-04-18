@@ -76,7 +76,6 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     public void DisconnectFromRoom()
     {
         PhotonNetwork.LeaveRoom();
-
     }
 
     public void JoinRoom()

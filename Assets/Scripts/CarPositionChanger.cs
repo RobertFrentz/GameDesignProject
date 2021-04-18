@@ -8,6 +8,7 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
     Vector3 _networkPosition;
     Quaternion _networkRotation;
     Rigidbody _rb;
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -21,7 +22,6 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
             _networkPosition = (Vector3)stream.ReceiveNext();
             _networkRotation = (Quaternion)stream.ReceiveNext();
             _rb.velocity = (Vector3)stream.ReceiveNext();
-
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             _networkPosition += (_rb.velocity * lag);
         }
@@ -29,8 +29,15 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-    }
 
+    }
+    void Update()
+    {
+        if(_rb==null)
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
+    }
     public void FixedUpdate()
     {
         var photonView = GameObject.Find("Car(Clone)").GetComponent<PhotonView>();
@@ -40,6 +47,7 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
             {
                 _rb.position = Vector3.MoveTowards(_rb.position, _networkPosition, Time.fixedDeltaTime);
                 _rb.rotation = Quaternion.RotateTowards(_rb.rotation, _networkRotation, Time.fixedDeltaTime * 100.0f);
+                
             }
         }
        
