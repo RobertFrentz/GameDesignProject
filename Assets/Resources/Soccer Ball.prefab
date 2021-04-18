@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8166630080896413056}
   - component: {fileID: 8121579021032250670}
   - component: {fileID: 8121579021032250671}
+  - component: {fileID: -4087622526961781394}
+  - component: {fileID: -3583723788548253265}
   m_Layer: 0
   m_Name: Soccer Ball
   m_TagString: SoccerBall
@@ -30,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 8120730906942779782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 100.2, y: 9.15, z: 50.05}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children:
   - {fileID: 8121579019737249761}
   m_Father: {fileID: 0}
@@ -125,6 +127,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be126e348d2b2194eb771e707927339c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4087622526961781394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120730906942779782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  observableSearch: 1
+  ObservedComponents:
+  - {fileID: -3583723788548253265}
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-3583723788548253265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120730906942779782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08495ede22179fe4dbb1495fbfc78b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8121579019737249762

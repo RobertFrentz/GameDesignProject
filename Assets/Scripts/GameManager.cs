@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
 
     public GameObject playerPrefab;
+    public GameObject ballPrefab;
     public Text boost;
     private GameObject player;
     void Start()
@@ -22,8 +23,11 @@ public class GameManager : MonoBehaviour
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
             player = PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(48f, 10f, 0f), Quaternion.identity, 0);
         }
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.InstantiateRoomObject(ballPrefab.name, new Vector3(127.3f, 14f, 50.05f), Quaternion.identity, 0);
+        }
     }
-
 
     void Update()
     {

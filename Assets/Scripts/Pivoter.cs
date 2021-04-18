@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Pivoter : MonoBehaviour
@@ -8,7 +9,7 @@ public class Pivoter : MonoBehaviour
     private Transform cube;
     void Start()
     {
-        ball = GameObject.Find("Soccer Ball");
+        ball = GameObject.FindGameObjectWithTag("SoccerBall");
         cube = transform.GetChild(4);
     }
 

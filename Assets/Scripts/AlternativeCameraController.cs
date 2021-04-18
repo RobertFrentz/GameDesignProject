@@ -1,4 +1,5 @@
 ﻿
+using System.Threading;
 using UnityEngine;
 
 public class AlternativeCameraController : MonoBehaviour
@@ -18,7 +19,8 @@ public class AlternativeCameraController : MonoBehaviour
 
     void Start()
     {
-        ball = GameObject.Find("Soccer Ball");
+        
+        ball = GameObject.FindGameObjectWithTag("SoccerBall");
         cameraRig = this.transform.GetChild(3);
         ballRig = this.transform.GetChild(4).GetChild(0);
         if (followOnStart)

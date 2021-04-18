@@ -36,4 +36,18 @@ public class PlayerManager : MonoBehaviour
     {
         
     }
+    private void OnCollisionEnter(Collision contact)
+    {
+        Transform collisionObjectRoot = contact.transform.root;
+        if (collisionObjectRoot.CompareTag("SoccerBall"))
+        {
+            GameObject ball = GameObject.FindGameObjectWithTag("SoccerBall");
+            if (!ball.GetComponent<PhotonView>().IsMine)
+            {
+                ball.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+                //Transfer PhotonView of Rigidbody to our local player
+            }
+
+        }
+    }
 }

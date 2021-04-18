@@ -8,7 +8,6 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     [SerializeField]
     private byte maxPlayersPerRoom = 4;
 
-
     /// <summary>
     /// This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
     /// </summary>
@@ -150,5 +149,4 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
         }
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
     }
-
 }

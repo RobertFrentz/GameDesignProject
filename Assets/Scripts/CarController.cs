@@ -38,7 +38,7 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(boostBar);
+        //Debug.Log(boostBar);
         if (photonView.IsMine)
         {
             grounded = false;
