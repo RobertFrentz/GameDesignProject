@@ -698,7 +698,7 @@ GameObject:
   - component: {fileID: -3376967674953132995}
   m_Layer: 0
   m_Name: Car
-  m_TagString: Car
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -817,7 +817,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -3376967674953132995}
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
