@@ -63,7 +63,7 @@ public class CarController : MonoBehaviour
                     carBoost[0].Play();
                     carBoost[1].Play();
                     boost = 10000f;
-                    boostBar -= 10f * Time.deltaTime;
+                    boostBar -= 15f * Time.deltaTime;
                 }
                 else
                 {
@@ -265,5 +265,9 @@ public class CarController : MonoBehaviour
             visualWheels[i].position = position;
             visualWheels[i].rotation = rotation;
         }
+    }
+    public void AddSmallBoost()
+    {
+        boostBar += 15f;
     }
 }
