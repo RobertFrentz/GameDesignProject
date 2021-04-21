@@ -29,13 +29,14 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-
+        _rb.velocity = Vector3.zero;
     }
     void Update()
     {
         if(_rb==null)
         {
             _rb = GetComponent<Rigidbody>();
+            _rb.velocity = Vector3.zero;
         }
     }
     public void FixedUpdate()
@@ -43,7 +44,7 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
         var photonView = GameObject.Find("Car(Clone)").GetComponent<PhotonView>();
         if(photonView!=null)
         {
-            if (photonView.IsMine)
+            if (!photonView.IsMine)
             {
                 _rb.position = Vector3.MoveTowards(_rb.position, _networkPosition, Time.fixedDeltaTime);
                 _rb.rotation = Quaternion.RotateTowards(_rb.rotation, _networkRotation, Time.fixedDeltaTime * 100.0f);

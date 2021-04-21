@@ -9,7 +9,7 @@ public class BoostPad : MonoBehaviour
 
     void Start()
     {
-        boostNumber = Int32.Parse(this.gameObject.name.Substring(11));
+        boostNumber = Int32.Parse(this.gameObject.name.Substring(6));
         renderer = GetComponent<Renderer>();
     }
 

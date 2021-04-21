@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class WaitingRoom : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class WaitingRoom : MonoBehaviour
         {
             waitingText = GetComponent<Text>();
             waitingText.gameObject.SetActive(false);
-            Photon.GetComponent<PhotonConnection>().JoinRoom();
+            string buttonName = EventSystem.current.currentSelectedGameObject.name;
+            Photon.GetComponent<PhotonConnection>().JoinRoom(buttonName);
         }
     }
 

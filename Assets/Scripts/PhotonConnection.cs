@@ -1,12 +1,21 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PhotonConnection : MonoBehaviourPunCallbacks
 {
+    public Button button1v1;
+    public Button button2v2;
+    public static string button;
+    public static string roomName1=null;
+    public static string roomName2=null;
     [SerializeField]
-    private byte maxPlayersPerRoom = 4;
+    private byte maxPlayersPerRoom2vs2 = 4;
+    private byte maxPlayersPerRoom1vs1 = 2;
 
     /// <summary>
     /// This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
@@ -65,22 +74,44 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     }
 
 
-    public void CreateRoom()
+    public void CreateRoom(byte maxPlayersPerRoom)
     {
+
+        System.Random random = new System.Random();
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        string room= new string(Enumerable.Range(1, 7).Select(_ => chars[random.Next(chars.Length)]).ToArray());
+       /* if(maxPlayersPerRoom==2)
+        {
+            roomName1 = room;
+        }
+        else if(maxPlayersPerRoom==4)
+        {
+            roomName2 = room;
+        }*/
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = maxPlayersPerRoom;
-        PhotonNetwork.CreateRoom("Alabala", roomOptions, null);
+        PhotonNetwork.CreateRoom(room, roomOptions, null);
 
     }
 
     public void DisconnectFromRoom()
     {
+
         PhotonNetwork.LeaveRoom();
     }
 
-    public void JoinRoom()
+    public void JoinRoom(string buttonName)
     {
-        PhotonNetwork.JoinRandomRoom();
+        button = buttonName;
+        if(buttonName=="1vs1")
+        {
+
+            PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom1vs1);
+        }
+        else if(buttonName == "2vs2")
+        {
+            PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom2vs2);
+        }
     }
 
 
@@ -102,12 +133,26 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log(button);
         if (PhotonNetwork.IsMasterClient)
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            Debug.Log("Da, eu sunt master");
+            if(button=="1vs1")
             {
-                /*ScenesData.playerNumber = 1;*/
-                PhotonNetwork.LoadLevel("GameScene1");
+                Debug.Log("dupa 1v1 button");
+                if (PhotonNetwork.CurrentRoom.PlayerCount==2)
+                {
+                    Debug.Log(PhotonNetwork.CurrentRoom.Name);
+                    PhotonNetwork.LoadLevel("GameScene1");
+                }
+            }
+            else if (button=="2vs2")
+            {
+                if (PhotonNetwork.CurrentRoom.PlayerCount == 4)
+                {
+                    Debug.Log(PhotonNetwork.CurrentRoom.Name);
+                    PhotonNetwork.LoadLevel("GameScene1");
+                }
             }
         }
 
@@ -134,18 +179,26 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available");
-        CreateRoom();
+        if (button == "1vs1")
+        {
+
+            CreateRoom(maxPlayersPerRoom1vs1);
+        }
+        else if (button == "2vs2")
+        {
+            CreateRoom(maxPlayersPerRoom2vs2);
+        }
+        
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
         //PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
-    
+
     /*public override void OnJoinedRoom()
     {
-        *//*ScenesData.backToLobby = true;*//*
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
         {
-            *//*ScenesData.playerNumber = 1;*//*
             PhotonNetwork.LoadLevel("GameScene1");
         }
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
