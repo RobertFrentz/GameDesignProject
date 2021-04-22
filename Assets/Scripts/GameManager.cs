@@ -12,6 +12,12 @@ public class GameManager : MonoBehaviour
     public GameObject ballPrefab;
     public Text boost;
     private GameObject player;
+    private Vector3 player1Position = new Vector3(35f, 1f, 28f);
+    private Vector3 player2Position = new Vector3(175f, 1, 69f);
+    private Vector3 player3Position = new Vector3(35f, 1f, 69f);
+    private Vector3 player4Position = new Vector3(175f, 1f, 28f);
+    private Vector3 orangeTeamRotation = new Vector3(0f, 90f, 0f);
+    private Vector3 blueTeamRotation = new Vector3(0f, -90f, 0f);
     void Start()
     {
         if (playerPrefab == null)
@@ -20,8 +26,25 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Debug.Log(ScenesData.playerNumber);
+            if(ScenesData.playerNumber == 1)
+            {
+                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player1Position, Quaternion.Euler(orangeTeamRotation), 0);
+            }
+            else if(ScenesData.playerNumber == 2)
+            {
+                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player2Position, Quaternion.Euler(blueTeamRotation), 0);
+            }
+            else if(ScenesData.playerNumber == 3)
+            {
+                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player3Position, Quaternion.Euler(orangeTeamRotation), 0);
+            }
+            else if(ScenesData.playerNumber == 4)
+            {
+                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player4Position, Quaternion.Euler(blueTeamRotation), 0);
+            }
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            player = PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(48f, 10f, 0f), Quaternion.identity, 0);
+            
         }
         if(PhotonNetwork.IsMasterClient)
         {

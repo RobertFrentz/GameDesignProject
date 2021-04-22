@@ -11,8 +11,6 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     public Button button1v1;
     public Button button2v2;
     public static string button;
-    public static string roomName1=null;
-    public static string roomName2=null;
     [SerializeField]
     private byte maxPlayersPerRoom2vs2 = 4;
     private byte maxPlayersPerRoom1vs1 = 2;
@@ -80,14 +78,6 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
         System.Random random = new System.Random();
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         string room= new string(Enumerable.Range(1, 7).Select(_ => chars[random.Next(chars.Length)]).ToArray());
-       /* if(maxPlayersPerRoom==2)
-        {
-            roomName1 = room;
-        }
-        else if(maxPlayersPerRoom==4)
-        {
-            roomName2 = room;
-        }*/
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = maxPlayersPerRoom;
         PhotonNetwork.CreateRoom(room, roomOptions, null);
@@ -122,12 +112,6 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
-        /*        SceneManager.LoadScene("Home");
-                ScenesData.currentRiddle = 1;
-                ScenesData.numberOfRiddles = 1;
-                ScenesData.treasureCoords = new double[2];
-                ScenesData.riddlesCoords = new double[10];
-                ScenesData.riddlesText = new string[6];*/
     }
 
 
@@ -155,7 +139,6 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
                 }
             }
         }
-
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -171,6 +154,11 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     }
 
 
+    public override void OnJoinedRoom()
+    {
+        ScenesData.playerNumber = PhotonNetwork.CurrentRoom.PlayerCount;
+    }
+
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
@@ -181,14 +169,12 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available");
         if (button == "1vs1")
         {
-
             CreateRoom(maxPlayersPerRoom1vs1);
         }
         else if (button == "2vs2")
         {
             CreateRoom(maxPlayersPerRoom2vs2);
         }
-        
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
         //PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }

@@ -11,4 +11,5 @@ public static class PhotonSendEvent
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(10, content, raiseEventOptions, SendOptions.SendReliable);
     }
+
 }

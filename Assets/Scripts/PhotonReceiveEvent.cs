@@ -27,5 +27,6 @@ public class PhotonReceiveEvent : MonoBehaviour, IOnEventCallback
             int boostPadNumber = (int)data[0];
             boostPads[boostPadNumber].GetComponent<BoostPad>().ChangeMaterial();
         }
+
     }
 }
