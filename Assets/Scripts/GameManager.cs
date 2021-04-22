@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
-    public GameObject playerPrefab;
+    public GameObject playerPrefabRed;
+    public GameObject playerPrefabBlue;
     public GameObject ballPrefab;
     public Text boost;
     private GameObject player;
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     private Vector3 blueTeamRotation = new Vector3(0f, -90f, 0f);
     void Start()
     {
-        if (playerPrefab == null)
+        if (playerPrefabRed == null || playerPrefabBlue == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
         }
@@ -29,19 +30,19 @@ public class GameManager : MonoBehaviour
             Debug.Log(ScenesData.playerNumber);
             if(ScenesData.playerNumber == 1)
             {
-                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player1Position, Quaternion.Euler(orangeTeamRotation), 0);
+                player = PhotonNetwork.Instantiate(this.playerPrefabRed.name, player1Position, Quaternion.Euler(orangeTeamRotation), 0);
             }
             else if(ScenesData.playerNumber == 2)
             {
-                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player2Position, Quaternion.Euler(blueTeamRotation), 0);
+                player = PhotonNetwork.Instantiate(this.playerPrefabBlue.name, player2Position, Quaternion.Euler(blueTeamRotation), 0);
             }
             else if(ScenesData.playerNumber == 3)
             {
-                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player3Position, Quaternion.Euler(orangeTeamRotation), 0);
+                player = PhotonNetwork.Instantiate(this.playerPrefabRed.name, player3Position, Quaternion.Euler(orangeTeamRotation), 0);
             }
             else if(ScenesData.playerNumber == 4)
             {
-                player = PhotonNetwork.Instantiate(this.playerPrefab.name, player4Position, Quaternion.Euler(blueTeamRotation), 0);
+                player = PhotonNetwork.Instantiate(this.playerPrefabBlue.name, player4Position, Quaternion.Euler(blueTeamRotation), 0);
             }
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
             

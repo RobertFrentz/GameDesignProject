@@ -716,7 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c408896d8a690144298a07c23ea3601a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4636342417452953888, guid: 3711cafb0c74b9f45b684511964c1a3a, type: 3}
+  playerPrefabRed: {fileID: 3671879645227839746, guid: 68d2616fe92b20241b8071113229ac3c, type: 3}
+  playerPrefabBlue: {fileID: 5236604689684029734, guid: 5df7944a83af6554ba236ea6c62deb36, type: 3}
   ballPrefab: {fileID: 8120730906942779782, guid: 546521b565445e04c90808aa17ba867a, type: 3}
   boost: {fileID: 169860618}
 --- !u!4 &468267447
