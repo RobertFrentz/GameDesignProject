@@ -8,31 +8,42 @@ public class BoostPad : MonoBehaviour
     private Renderer renderer;
     private float timeStart;
     private float timeEnd;
+    private Renderer bigBoost;
 
     void Start()
     {
         boostNumber = Int32.Parse(this.gameObject.name.Substring(6));
         timeStart = -1f;
-        timeEnd = 1000f;
+        timeEnd = 10f;
         renderer = GetComponent<Renderer>();
+        if(transform.parent.childCount == 2)
+        {
+            bigBoost = transform.parent.GetChild(1).GetComponent<Renderer>();
+        }
+        renderer.material.color = Color.yellow;
     }
 
     void Update()
     {
-        /*if(timeStart != -1f && timeStart < timeEnd)
+        if (timeStart != -1f && timeStart < timeEnd)
         {
             timeStart += Time.deltaTime;
             Debug.Log(timeStart);
         }
-        if(timeStart >= timeEnd)
+        if (timeStart >= timeEnd)
         {
             timeStart = -1f;
             renderer.material.color = Color.yellow;
-        }*/
+            bigBoost.enabled = !bigBoost.enabled;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if(renderer.material.color == Color.white)
+        {
+            return;
+        }
         CarController controller = other.GetComponentInParent<CarController>();
         if (controller != null)
         {
@@ -58,9 +69,11 @@ public class BoostPad : MonoBehaviour
 
     public void ChangeMaterial()
     {
-        if(renderer.material.color == Color.yellow)
+        renderer.material.color = Color.white;
+        if(bigBoost != null)
         {
-            renderer.material.color = Color.white;
+            bigBoost.enabled = !bigBoost.enabled;
         }
+        timeStart = 0f;
     }
 }
