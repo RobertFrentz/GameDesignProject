@@ -268,6 +268,17 @@ public class CarController : MonoBehaviour
     }
     public void AddSmallBoost()
     {
+        if(boostBar + 15f > 100f)
+        {
+            boostBar = 100f;
+            return;
+        }
         boostBar += 15f;
+
+    }
+
+    public void AddFullBoost()
+    {
+        boostBar = 100f;
     }
 }

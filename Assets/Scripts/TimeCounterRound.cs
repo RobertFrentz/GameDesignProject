@@ -13,9 +13,9 @@ public class TimeCounterRound : MonoBehaviour
     {
         var timer = Mathf.Max(0, secondLeft - Time.deltaTime);
         var timeSpan = System.TimeSpan.FromSeconds(timer);
-        textDisplay.GetComponent<Text>().text = timeSpan.Hours.ToString("00") + ":" +
-                                                timeSpan.Minutes.ToString("00") + ":" +
+        textDisplay.GetComponent<Text>().text = timeSpan.Minutes.ToString("00") + ":" +
                                                 timeSpan.Seconds.ToString("00");
+
     }
     public void Update()
     {
@@ -33,9 +33,9 @@ public class TimeCounterRound : MonoBehaviour
         secondLeft -= 1;
         var timer = Mathf.Max(0, secondLeft - Time.deltaTime);
         var timeSpan = System.TimeSpan.FromSeconds(timer);
-        textDisplay.GetComponent<Text>().text = timeSpan.Hours.ToString("00") + ":" +
-                                                timeSpan.Minutes.ToString("00") + ":" +
+        textDisplay.GetComponent<Text>().text = timeSpan.Minutes.ToString("00") + ":" +
                                                 timeSpan.Seconds.ToString("00");
+
         takingAway = false;
     }
 }
