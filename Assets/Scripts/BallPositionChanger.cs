@@ -11,6 +11,7 @@ public class BallPositionChanger :MonoBehaviour, IPunObservable
     Rigidbody _rb;
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        _rb = GetComponent<Rigidbody>();
         if (stream.IsWriting)
         {
             stream.SendNext(_rb.position);
@@ -22,7 +23,6 @@ public class BallPositionChanger :MonoBehaviour, IPunObservable
             _networkPosition = (Vector3)stream.ReceiveNext();
             _networkRotation = (Quaternion)stream.ReceiveNext();
             _rb.velocity = (Vector3)stream.ReceiveNext();
-
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             _networkPosition += (_rb.velocity * lag);
         }

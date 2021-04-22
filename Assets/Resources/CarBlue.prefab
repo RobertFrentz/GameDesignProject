@@ -13,6 +13,10 @@ PrefabInstance:
       objectReference: {fileID: 4300002, guid: 1f768f0d5a5dc9e48941608a2f58f511, type: 3}
     - target: {fileID: 4636342417452953888, guid: 3711cafb0c74b9f45b684511964c1a3a, type: 3}
       propertyPath: m_Name
+      value: CarBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 4636342417452953888, guid: 3711cafb0c74b9f45b684511964c1a3a, type: 3}
+      propertyPath: m_TagString
       value: Car
       objectReference: {fileID: 0}
     - target: {fileID: 4638503631140380486, guid: 3711cafb0c74b9f45b684511964c1a3a, type: 3}

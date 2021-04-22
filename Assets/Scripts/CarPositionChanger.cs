@@ -1,6 +1,4 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarPositionChanger : MonoBehaviour, IPunObservable
@@ -11,6 +9,7 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        _rb = GetComponent<Rigidbody>();
         if (stream.IsWriting)
         {
             stream.SendNext(_rb.position);
@@ -41,7 +40,7 @@ public class CarPositionChanger : MonoBehaviour, IPunObservable
     }
     public void FixedUpdate()
     {
-        var photonView = GameObject.Find("Car(Clone)").GetComponent<PhotonView>();
+        var photonView = GameObject.FindGameObjectWithTag("Car").GetComponent<PhotonView>();
         if(photonView!=null)
         {
             if (!photonView.IsMine)
