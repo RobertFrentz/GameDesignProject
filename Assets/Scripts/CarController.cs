@@ -2,6 +2,7 @@
 using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class CarController : MonoBehaviour
     public Transform[] groundRayPoints;
     public PhotonView photonView;
     public ParticleSystem[] carBoost;
+
     void Start()
     {
         timeStart = 0f;
@@ -38,6 +40,7 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
+        
         //Debug.Log(boostBar);
         if (photonView.IsMine)
         {
