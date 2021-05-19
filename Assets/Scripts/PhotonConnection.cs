@@ -71,7 +71,11 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
         }
     }
 
-
+    public void SetNickname(string nickname)
+    {
+        
+        PhotonNetwork.NickName = nickname;
+    }
     public void CreateRoom(byte maxPlayersPerRoom)
     {
 

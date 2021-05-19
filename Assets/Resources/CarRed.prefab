@@ -59,5 +59,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CarRed
       objectReference: {fileID: 0}
+    - target: {fileID: 8094163822537372290, guid: 5df7944a83af6554ba236ea6c62deb36, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 3671879645227839746}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5df7944a83af6554ba236ea6c62deb36, type: 3}
+--- !u!1 &3671879645227839746 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5236604689684029734, guid: 5df7944a83af6554ba236ea6c62deb36, type: 3}
+  m_PrefabInstance: {fileID: 8816090034563715108}
+  m_PrefabAsset: {fileID: 0}
