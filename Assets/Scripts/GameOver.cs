@@ -11,6 +11,7 @@ public class GameOver : MonoBehaviour
     public Text RedScore;
     public GameObject WhoWon;
     public GameObject Panel;
+    public GameObject PostGame;
     // Update is called once per frame
     void Update()
     {
@@ -29,7 +30,7 @@ public class GameOver : MonoBehaviour
             {
                 WhoWon.GetComponent<Text>().text = "Draw!";
             }
-            Panel.SetActive(true);
+            PostGame.GetComponent<PostGame>().PostGameGenerator();
         }
     }
 }

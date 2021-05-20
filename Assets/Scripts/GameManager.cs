@@ -13,12 +13,12 @@ public class GameManager : MonoBehaviour
     public GameObject ballPrefab;
     public Text boost;
     private GameObject player;
-    private Vector3 player1Position = new Vector3(35f, 1f, 28f);
-    private Vector3 player2Position = new Vector3(175f, 1, 69f);
-    private Vector3 player3Position = new Vector3(35f, 1f, 69f);
-    private Vector3 player4Position = new Vector3(175f, 1f, 28f);
-    private Vector3 orangeTeamRotation = new Vector3(0f, 90f, 0f);
-    private Vector3 blueTeamRotation = new Vector3(0f, -90f, 0f);
+    private Vector3 player1Position = new Vector3(175f, 1, 69f);
+    private Vector3 player2Position = new Vector3(35f, 1f, 28f);
+    private Vector3 player3Position =  new Vector3(175f, 1f, 28f);
+    private Vector3 player4Position = new Vector3(35f, 1f, 69f);
+    private Vector3 orangeTeamRotation = new Vector3(0f, -90f, 0f);
+    private Vector3 blueTeamRotation = new Vector3(0f, 90f, 0f);
     void Start()
     {
         if (playerPrefabRed == null || playerPrefabBlue == null)

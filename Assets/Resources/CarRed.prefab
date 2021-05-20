@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2299691395067614788, guid: 5df7944a83af6554ba236ea6c62deb36, type: 3}
+      propertyPath: ObservedComponentsFoldoutOpen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2940623111649120765, guid: 5df7944a83af6554ba236ea6c62deb36, type: 3}
       propertyPath: m_Mesh
       value: 

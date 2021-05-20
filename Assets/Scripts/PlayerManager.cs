@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
     public static GameObject LocalPlayerInstance;
     public PhotonView photonView;
 
+
     void Awake()
     {
         if (photonView.IsMine)
@@ -21,7 +22,6 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         AlternativeCameraController _cameraWork = this.gameObject.GetComponent<AlternativeCameraController>();
-
 
         if (_cameraWork != null)
         {
