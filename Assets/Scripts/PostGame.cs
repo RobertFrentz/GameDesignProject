@@ -71,6 +71,8 @@ public class PostGame : MonoBehaviour
             }
             postGameRedScore.text = redScore.text;
             postGameBlueScore.text = blueScore.text;
+            Camera.main.transform.position = new Vector3(102, 46, 152);
+            Camera.main.transform.rotation = Quaternion.Euler(new Vector3(20, 180, 0));
             for (int i = 0; i < this.transform.childCount; i++)
             {
                 this.transform.GetChild(i).gameObject.SetActive(true);
