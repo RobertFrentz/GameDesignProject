@@ -90,7 +90,6 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
 
     public void DisconnectFromRoom()
     {
-
         PhotonNetwork.LeaveRoom();
     }
 
@@ -115,7 +114,7 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     }
     public override void OnLeftRoom()
     {
-        base.OnLeftRoom();
+        SceneManager.LoadScene("UI");
     }
 
 
