@@ -10,7 +10,6 @@ public class SceneChanger : MonoBehaviour
 
     public void SceneChange()
     {
-        PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneName);
         //Debug.Log(GameObject.Find("PlayContainer"));
         //GameObject.Find("PlayContainer").SetActive(false);
