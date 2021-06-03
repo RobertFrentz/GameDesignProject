@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         }
         if(PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.InstantiateRoomObject(ballPrefab.name, new Vector3(127.3f, 14f, 50.05f), Quaternion.identity, 0);
+            PhotonNetwork.InstantiateRoomObject(ballPrefab.name, new Vector3(100.3f, 14f, 50.05f), Quaternion.identity, 0);
         }
     }
 
