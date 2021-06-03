@@ -49,4 +49,8 @@ public class PlayUIButton : MonoBehaviour
         }
 
     }
+    public void CloseApplication()
+    {
+        Application.Quit();
+    }
 }
